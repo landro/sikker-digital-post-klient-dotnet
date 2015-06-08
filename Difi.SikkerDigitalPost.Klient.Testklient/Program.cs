@@ -65,7 +65,13 @@ namespace Difi.SikkerDigitalPost.Klient.Testklient
             /**
              * SEND POST OG MOTTA KVITTERINGER
              */
-            SendPost(sikkerDigitalPostKlient, forsendelse);
+            var stopwatch = Stopwatch.StartNew();
+            for (int i = 0; i < 100; i++)
+            {
+                SendPost(sikkerDigitalPostKlient, forsendelse);
+            }
+            stopwatch.Stop();
+            Console.Write("Tok tiden:" + stopwatch.ElapsedMilliseconds);
 
             Console.WriteLine("--- STARTER Å HENTE KVITTERINGER ---");
 
@@ -162,16 +168,22 @@ namespace Difi.SikkerDigitalPost.Klient.Testklient
             return klientkonfigurasjon;
         }
 
+        private static byte[] fileBytes;
         private static Forsendelse GenererForsendelse(Avsender avsender, PostInfo postInfo)
         {
             ResourceUtility resourceUtility = new ResourceUtility("Difi.SikkerDigitalPost.Klient.Testklient.Resources");
-            
-            var hoveddokument = resourceUtility.ReadAllBytes(true, "Hoveddokument.pdf");
-            var vedlegg = resourceUtility.ReadAllBytes(true, "Vedlegg.txt");
+
+            if (fileBytes == null)
+            {
+                fileBytes = resourceUtility.ReadAllBytes(true, "Vedlegg.txt");
+            }
+           
+            var hoveddokument = fileBytes;
+            var vedlegg = fileBytes;
             
             //Forsendelse
             var dokumentpakke =
-                new Dokumentpakke(new Dokument("Sendt" + DateTime.Now, hoveddokument, "application/pdf", "NO",
+                new Dokumentpakke(new Dokument("Sendt" + DateTime.Now, hoveddokument, "txt", "NO",
                     "OWASP TOP 10.pdf"));
             dokumentpakke.LeggTilVedlegg(new Dokument("Vedlegg", vedlegg, "plain/txt", "NO", "Vedlegg.txt"));
             return new Forsendelse(avsender, postInfo, dokumentpakke, Prioritet.Prioritert, MpcId, "NO");
