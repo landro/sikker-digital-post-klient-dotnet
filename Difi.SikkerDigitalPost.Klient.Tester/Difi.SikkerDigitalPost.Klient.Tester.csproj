@@ -43,12 +43,13 @@
     <AssemblyOriginatorKeyFile>..\sikker-digital-post.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ApiClientShared, Version=1.0.5578.25965, Culture=neutral, PublicKeyToken=6e0e24e0c7886562, processorArchitecture=MSIL">
+    <Reference Include="ApiClientShared, Version=1.0.5637.26819, Culture=neutral, PublicKeyToken=6e0e24e0c7886562, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\api-client-shared.1.0.5578.25965\lib\net45\ApiClientShared.dll</HintPath>
+      <HintPath>Z:\Dev\Dp\api-client-shared-dotnet\ApiClientShared\bin\Release\ApiClientShared.dll</HintPath>
     </Reference>
-    <Reference Include="Difi.Felles.Utility">
-      <HintPath>..\packages\difi-felles-utility-dotnet.0.1.5598.25086\lib\net45\Difi.Felles.Utility.dll</HintPath>
+    <Reference Include="Difi.Felles.Utility, Version=0.1.5598.25086, Culture=neutral, PublicKeyToken=bd8139acc70008cb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Z:\Dev\Dp\difi-felles-utility-dotnet\Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -177,7 +178,6 @@
     <None Include="..\sikker-digital-post.pfx">
       <Link>sikker-digital-post.pfx</Link>
     </None>
-    <None Include="packages.config" />
     <None Include="testdata\integrasjon\fysiskpost.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

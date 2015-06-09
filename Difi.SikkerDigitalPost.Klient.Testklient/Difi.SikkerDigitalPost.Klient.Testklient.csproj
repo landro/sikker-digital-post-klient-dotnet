@@ -41,7 +41,7 @@
   <ItemGroup>
     <Reference Include="ApiClientShared, Version=1.0.5578.25965, Culture=neutral, PublicKeyToken=6e0e24e0c7886562, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\api-client-shared.1.0.5578.25965\lib\net45\ApiClientShared.dll</HintPath>
+      <HintPath>Z:\Dev\Dp\api-client-shared-dotnet\ApiClientShared\bin\Release\ApiClientShared.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,7 +58,6 @@
     <None Include="App.config" />
     <EmbeddedResource Include="Resources\Hoveddokument.pdf" />
     <EmbeddedResource Include="Resources\Vedlegg.pdf" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Difi.SikkerDigitalPost.Klient.Domene\Difi.SikkerDigitalPost.Klient.Domene.csproj">
