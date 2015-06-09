@@ -21,6 +21,8 @@ using System.Security.Cryptography.X509Certificates;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Interface;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post;
 using Difi.SikkerDigitalPost.Klient.Utilities;
+using Ionic.Zip;
+using Ionic.Zlib;
 
 namespace Difi.SikkerDigitalPost.Klient.AsicE
 {
@@ -98,20 +100,39 @@ namespace Difi.SikkerDigitalPost.Klient.AsicE
 
         private byte[] LagBytes()
         {
-            var stream = new MemoryStream();
-            using (var archive = new ZipArchive(stream, ZipArchiveMode.Create))
+            using (MemoryStream memoryStream = new MemoryStream())
+            using (ZipFile zip = new ZipFile())
             {
-                LeggFilTilArkiv(archive, _dokumentpakke.Hoveddokument.FilnavnRådata, _dokumentpakke.Hoveddokument.Bytes);
-                LeggFilTilArkiv(archive, Manifest.Filnavn, Manifest.Bytes);
-                LeggFilTilArkiv(archive, Signatur.Filnavn, Signatur.Bytes);
+                zip.AddEntry(_dokumentpakke.Hoveddokument.VasketFilnavn, _dokumentpakke.Hoveddokument.Bytes);
+                zip.AddEntry(Manifest.Filnavn, Manifest.Bytes);
+                zip.AddEntry(Signatur.Filnavn, Signatur.Bytes);
 
                 foreach (var dokument in _dokumentpakke.Vedlegg)
-                    LeggFilTilArkiv(archive, dokument.FilnavnRådata, dokument.Bytes);
+                {
+                    zip.AddEntry(dokument.VasketFilnavn, dokument.Bytes);
+                }
 
+                zip.Save(memoryStream);
+                return memoryStream.ToArray();
             }
+            
 
-            byte[] ziparray = stream.ToArray();
-            return stream.ToArray();
+
+
+            //var stream = new MemoryStream();
+            //using (var archive = new ZipPackage(stream, ZipArchiveMode.Create))
+            //{
+            //    LeggFilTilArkiv(archive, _dokumentpakke.Hoveddokument.VasketFilnavn, _dokumentpakke.Hoveddokument.Bytes);
+            //    LeggFilTilArkiv(archive, Manifest.Filnavn, Manifest.Bytes);
+            //    LeggFilTilArkiv(archive, Signatur.Filnavn, Signatur.Bytes);
+
+            //    foreach (var dokument in _dokumentpakke.Vedlegg)
+            //        LeggFilTilArkiv(archive, dokument.VasketFilnavn, dokument.Bytes);
+
+            //}
+
+            //byte[] ziparray = memor.ToArray();
+            //return stream.ToArray();
         }
 
         public void LagreTilDisk(params string[] filsti)
@@ -119,17 +140,17 @@ namespace Difi.SikkerDigitalPost.Klient.AsicE
             FileUtility.WriteToBasePath(UkrypterteBytes, filsti);
         }
 
-        private void LeggFilTilArkiv(ZipArchive archive, string filename, byte[] data)
-        {
-            Logging.Log(TraceEventType.Information, Manifest.Forsendelse.KonversasjonsId, string.Format("Legger til '{0}' på {1} bytes til dokumentpakke.", filename, data.Length));
+        //private void LeggFilTilArkiv(ZipArchive archive, string filename, byte[] data)
+        //{
+        //    Logging.Log(TraceEventType.Information, Manifest.Forsendelse.KonversasjonsId, string.Format("Legger til '{0}' på {1} bytes til dokumentpakke.", filename, data.Length));
 
-            var entry = archive.CreateEntry(filename, CompressionLevel.Optimal);
-            using (Stream s = entry.Open())
-            {
-                s.Write(data, 0, data.Length);
-                s.Close();
-            }
-        }
+        //    var entry = archive.CreateEntry(filename, CompressionLevel.Optimal);
+        //    using (Stream s = entry.Open())
+        //    {
+        //        s.Write(data, 0, data.Length);
+        //        s.Close();
+        //    }
+        //}
 
         private byte[] KrypterteBytes(byte[] bytes)
         {

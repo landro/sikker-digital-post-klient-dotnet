@@ -29,7 +29,7 @@ namespace Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post
         public string MimeType { get; private set; }
         public string Id { get; set; }
         public string Språkkode { get; private set; }
-        internal string FilnavnRådata { get; set; }
+        internal string VasketFilnavn { get; set; }
 
         /// <param name="tittel">Tittel som vises til brukeren gitt riktig sikkerhetsnivå.</param>
         /// <param name="dokumentsti">Stien som viser til hvor dokumentet ligger på disk.</param>
@@ -65,7 +65,7 @@ namespace Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post
             Bytes = dokumentbytes;
             MimeType = mimeType;
             Filnavn = UrlEncode(filnavn.RemoveIllegalCharacters());
-            FilnavnRådata = vasketFilnavn;
+            VasketFilnavn = vasketFilnavn;
             Språkkode = språkkode;
         }
 

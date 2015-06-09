@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter;
+using Difi.SikkerDigitalPost.Klient.Extensions;
 
 namespace Difi.SikkerDigitalPost.Klient
 {
@@ -71,7 +72,7 @@ namespace Difi.SikkerDigitalPost.Klient
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(ProxyHost) && ProxyPort > 0;
+                return !ProxyHost.IsNullOrWhiteSpace() && ProxyPort > 0;
             }
         }
 

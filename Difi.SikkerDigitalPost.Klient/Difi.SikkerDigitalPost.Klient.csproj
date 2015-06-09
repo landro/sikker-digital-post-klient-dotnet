@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Difi.SikkerDigitalPost.Klient</RootNamespace>
     <AssemblyName>Difi.SikkerDigitalPost.Klient</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -55,6 +55,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Z:\Dev\Dp\difi-felles-utility-dotnet\Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -92,6 +95,7 @@
     <Compile Include="Envelope\Kvitteringsforespørsel\KvitteringsforespørselEnvelope.cs" />
     <Compile Include="Envelope\Abstract\EnvelopeXmlPart.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="KvitteringFactory.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Navnerom.cs" />
@@ -229,6 +233,7 @@
     <None Include="..\sikker-digital-post.pfx">
       <Link>sikker-digital-post.pfx</Link>
     </None>
+    <None Include="packages.config" />
     <None Include="Resources\BPClass3CA3.cer" />
     <None Include="Resources\Buypass_Class_3_Test4_CA_3.cer" />
     <None Include="Resources\commfidesenterprise-sha256.crt" />

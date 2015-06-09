@@ -13,7 +13,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace Difi.SikkerDigitalPost.Klient
 {
@@ -26,12 +25,12 @@ namespace Difi.SikkerDigitalPost.Klient
             _logAction = konfigurasjon.Logger;
         }
 
-        internal static void Log(TraceEventType severity, string message, [CallerMemberName] string callerMember = null)
+        internal static void Log(TraceEventType severity, string message, string callerMember = null)
         {
             Log(severity, null, message, callerMember);
         }
 
-        internal static void Log(TraceEventType severity, Guid? conversationId, string message, [CallerMemberName] string callerMember = null)
+        internal static void Log(TraceEventType severity, Guid? conversationId, string message, string callerMember = null)
         {
             if (_logAction == null)
                 return;

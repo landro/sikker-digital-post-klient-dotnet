@@ -18,6 +18,7 @@ using System.IO;
 using System.Net;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Interface;
 using Difi.SikkerDigitalPost.Klient.Domene.Exceptions;
+using Difi.SikkerDigitalPost.Klient.Extensions;
 
 namespace Difi.SikkerDigitalPost.Klient
 {
@@ -81,11 +82,11 @@ namespace Difi.SikkerDigitalPost.Klient
                 stream.Write("\r\n\r\n");
 
             stream.WriteLine("--" + _boundary);
-            if (!string.IsNullOrWhiteSpace(attachment.Innholdstype))
+            if (!attachment.Innholdstype.IsNullOrWhiteSpace())
                 stream.WriteLine("Content-Type: " + attachment.Innholdstype);
-            if (!string.IsNullOrWhiteSpace(attachment.TransferEncoding))
+            if (!attachment.TransferEncoding.IsNullOrWhiteSpace())
                 stream.WriteLine("Content-Transfer-Encoding: " + attachment.TransferEncoding);
-            if (!string.IsNullOrWhiteSpace(attachment.ContentId))
+            if (!attachment.ContentId.IsNullOrWhiteSpace())
                 stream.WriteLine("Content-ID: <" + attachment.ContentId + ">");
 
             stream.WriteLine();
