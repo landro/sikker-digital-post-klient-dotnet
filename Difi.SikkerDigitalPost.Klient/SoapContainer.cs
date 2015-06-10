@@ -43,7 +43,7 @@ namespace Difi.SikkerDigitalPost.Klient
             if (Envelope == null)
                 throw new SendException("Kan ikke sende en Soap-melding uten en envelope.");
 
-            if (!string.IsNullOrWhiteSpace(Action))
+            if (!Action.IsNullOrWhiteSpace())
                 request.Headers.Add("SOAPAction", Action);
 
             request.ContentType = string.Format("Multipart/Related; boundary=\"{0}\"; type=\"application/soap+xml\"; start=\"<{1}>\"", _boundary, Envelope.ContentId);

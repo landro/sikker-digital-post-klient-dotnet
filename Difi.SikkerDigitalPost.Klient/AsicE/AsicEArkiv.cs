@@ -14,7 +14,6 @@
 
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
@@ -22,7 +21,6 @@ using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Interface;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post;
 using Difi.SikkerDigitalPost.Klient.Utilities;
 using Ionic.Zip;
-using Ionic.Zlib;
 
 namespace Difi.SikkerDigitalPost.Klient.AsicE
 {
@@ -115,9 +113,6 @@ namespace Difi.SikkerDigitalPost.Klient.AsicE
                 zip.Save(memoryStream);
                 return memoryStream.ToArray();
             }
-            
-
-
 
             //var stream = new MemoryStream();
             //using (var archive = new ZipPackage(stream, ZipArchiveMode.Create))

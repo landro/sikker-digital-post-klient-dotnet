@@ -79,7 +79,7 @@ namespace Difi.SikkerDigitalPost.Klient.AsicE
                 var signaturnode = Signaturnode();
 
                 IEnumerable<IAsiceVedlegg> referanser = Referanser(_forsendelse.Dokumentpakke.Hoveddokument,
-                    _forsendelse.Dokumentpakke.Vedlegg, _manifest);
+                    (IEnumerable<IAsiceVedlegg>)_forsendelse.Dokumentpakke.Vedlegg, _manifest);
                 OpprettReferanser(signaturnode, referanser);
 
                 var keyInfoX509Data = new KeyInfoX509Data(_sertifikat, X509IncludeOption.WholeChain);

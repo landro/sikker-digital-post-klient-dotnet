@@ -293,7 +293,12 @@ namespace Difi.SikkerDigitalPost.Klient
 
                     using (Stream errorStream = response.GetResponseStream())
                     {
-                        XDocument soap = XDocument.Load(errorStream);
+                        XDocument soap;
+                        using (XmlReader reader = XmlReader.Create(errorStream))
+                        {
+                            soap = XDocument.Load(reader);
+                        }
+
                         data = soap.ToString();
                
                         Logg(TraceEventType.Critical, Guid.Empty, data, true, true, "Sendt - SoapException.xml");

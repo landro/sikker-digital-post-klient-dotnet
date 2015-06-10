@@ -23,8 +23,8 @@ namespace Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post
     {
         public Dokument Hoveddokument { get; private set; }
 
-        private List<Dokument> _vedlegg;
-        public IList<Dokument> Vedlegg
+        private readonly List<Dokument> _vedlegg;
+        public IEnumerable<Dokument> Vedlegg
         {
             get { return new ReadOnlyCollection<Dokument>(_vedlegg); }
         }

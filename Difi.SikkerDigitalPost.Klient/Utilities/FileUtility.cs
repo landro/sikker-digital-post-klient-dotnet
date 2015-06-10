@@ -14,6 +14,8 @@
 
 using System;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace Difi.SikkerDigitalPost.Klient.Utilities
@@ -97,7 +99,9 @@ namespace Difi.SikkerDigitalPost.Klient.Utilities
 
         public static string AbsolutePath(params string[] pathRelativeToBase)
         {
-            return Path.Combine(BasePath, Path.Combine(pathRelativeToBase));
+            var pathRelativeToBaseCombined = pathRelativeToBase.Aggregate(Path.Combine);
+
+            return Path.Combine(BasePath, pathRelativeToBaseCombined);
         }
 
         private static void CreateDirectory(string path)

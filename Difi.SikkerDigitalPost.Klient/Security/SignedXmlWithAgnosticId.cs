@@ -17,6 +17,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Xml;
+using Security.Cryptography;
 
 namespace Difi.SikkerDigitalPost.Klient.Security
 {
@@ -72,7 +73,7 @@ namespace Difi.SikkerDigitalPost.Klient.Security
 
             // Adds signature method to crypto api
             if (CryptoConfig.CreateFromName(signatureMethod) == null)
-                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
+                CryptoConfig2.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
 
             // Makes sure the signingkey is using Microsoft Enhanced RSA and AES Cryptographic Provider which enables SHA256
             if (!certificate.HasPrivateKey)

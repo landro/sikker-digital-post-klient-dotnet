@@ -16,6 +16,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography.Xml;
 using System.Xml;
+using Difi.SikkerDigitalPost.Klient.Extensions;
 
 namespace Difi.SikkerDigitalPost.Klient.Security
 {
@@ -79,6 +80,7 @@ namespace Difi.SikkerDigitalPost.Klient.Security
             if (obj is Stream)
             {
                 _result = new MemoryStream();
+                
                 ((Stream)obj).CopyTo(_result);
                 if (((Stream)obj).CanSeek)
                     ((Stream)obj).Position = 0;

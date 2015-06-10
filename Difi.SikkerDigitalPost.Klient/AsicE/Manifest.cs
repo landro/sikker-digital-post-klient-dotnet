@@ -21,6 +21,7 @@ using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Interface;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post;
 using Difi.SikkerDigitalPost.Klient.Domene.Enums;
 using Difi.SikkerDigitalPost.Klient.Domene.Extensions;
+using Difi.SikkerDigitalPost.Klient.Extensions;
 
 namespace Difi.SikkerDigitalPost.Klient.AsicE
 {
@@ -122,7 +123,7 @@ namespace Difi.SikkerDigitalPost.Klient.AsicE
                 organisasjon.InnerText = Avsender.Organisasjonsnummer.Iso6523();
 
                 var avsenderId = Avsender.Avsenderidentifikator;
-                if (!String.IsNullOrWhiteSpace(avsenderId))
+                if (!avsenderId.IsNullOrWhiteSpace())
                 {
                     XmlElement avsenderidentifikator = avsender.AppendChildElement("avsenderidentifikator", Navnerom.DifiSdpSchema10, _manifestXml);
                     avsenderidentifikator.InnerText = Avsender.Avsenderidentifikator;

@@ -14,10 +14,10 @@
 
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using ApiClientShared;
-using Difi.SikkerDigitalPost.Klient.AsicE;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post;
 using Difi.SikkerDigitalPost.Klient.Domene.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -42,7 +42,7 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
         [TestMethod]
         public void LeggFilerTilDokumentpakkeAntallStemmer()
         {
-            Assert.AreEqual(Vedleggsstier.Length, Dokumentpakke.Vedlegg.Count);
+            Assert.AreEqual(Vedleggsstier.Length, Dokumentpakke.Vedlegg.Count());
             Assert.IsNotNull(Dokumentpakke.Hoveddokument);
         }
 
@@ -54,7 +54,7 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
             Dokumentpakke.LeggTilVedlegg(new Dokument("Dokument 3", new byte[] { 0x00 }, "text/plain"), new Dokument("Dokument 4", new byte[] { 0x00 }, "text/plain"));
 
             Assert.AreEqual(Dokumentpakke.Hoveddokument.Id, "Id_2");
-            for (int i = 0; i < Dokumentpakke.Vedlegg.Count; i++)
+            for (int i = 0; i < Dokumentpakke.Vedlegg.Count(); i++)
             {
                 var vedlegg = Dokumentpakke.Vedlegg[i];
                 Assert.AreEqual(vedlegg.Id, "Id_" + (i + 3));
