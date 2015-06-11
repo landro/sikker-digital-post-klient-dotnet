@@ -84,7 +84,7 @@ namespace Difi.SikkerDigitalPost.Klient.Security
 
             var issuerSerial = cert.AppendChild("IssuerSerial", Navnerom.UriEtsi132);
             issuerSerial.AppendChild("X509IssuerName", Navnerom.XmlDsig, Certificate.Issuer);
-            issuerSerial.AppendChild("X509SerialNumber", Navnerom.XmlDsig, BigInteger.Parse(Certificate.SerialNumber, NumberStyles.HexNumber).ToString());
+            //issuerSerial.AppendChild("X509SerialNumber", Navnerom.XmlDsig, BigInteger.Parse(Certificate.SerialNumber, NumberStyles.HexNumber).ToString());
 
             var signedDataObjectProperties = signedProperties.AppendChild("SignedDataObjectProperties", Navnerom.UriEtsi132);
             foreach (var item in References)

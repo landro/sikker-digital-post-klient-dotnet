@@ -58,9 +58,6 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="Security.Cryptography">
-      <HintPath>Z:\Dev\Dp\difi-sikker-digital-post-klient-dotnet\Security.Cryptography_1.7.2\Security.Cryptography.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />

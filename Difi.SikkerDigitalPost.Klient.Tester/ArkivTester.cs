@@ -18,6 +18,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using ApiClientShared;
+using Difi.SikkerDigitalPost.Klient.AsicE;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post;
 using Difi.SikkerDigitalPost.Klient.Domene.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -56,7 +57,7 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
             Assert.AreEqual(Dokumentpakke.Hoveddokument.Id, "Id_2");
             for (int i = 0; i < Dokumentpakke.Vedlegg.Count(); i++)
             {
-                var vedlegg = Dokumentpakke.Vedlegg[i];
+                var vedlegg = Dokumentpakke.Vedlegg.ElementAt(i);
                 Assert.AreEqual(vedlegg.Id, "Id_" + (i + 3));
             }
         }
