@@ -12,18 +12,15 @@
  * limitations under the License.
  */
 
-using System;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Security.Cryptography;
+using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using ApiClientShared;
-using Difi.SikkerDigitalPost.Klient.AsicE;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post;
 using Difi.SikkerDigitalPost.Klient.Domene.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+[assembly:AllowPartiallyTrustedCallers]
 namespace Difi.SikkerDigitalPost.Klient.Tester
 {
     [TestClass]
@@ -68,7 +65,7 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
         public void LeggTilVedleggSammeFilnavnKasterException()
         {
             Dokumentpakke.LeggTilVedlegg(new Dokument("DokumentUnikt", new byte[] { 0x00 }, "text/plain", "NO", "Filnavn.txt"));
-            Dokumentpakke.LeggTilVedlegg(new Dokument("DokumentDuplikat", new byte[] { 0x00 }, "text/plain", "NO", "Filnavn.txt"));   
+            Dokumentpakke.LeggTilVedlegg(new Dokument("DokumentDuplikat", new byte[] { 0x00 }, "text/plain", "NO", "Filnavn.txt"));
         }
 
         [TestMethod]
@@ -76,81 +73,6 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
         public void LeggTilVedleggSammeNavnSomHoveddokumentKasterException()
         {
             Dokumentpakke.LeggTilVedlegg(new Dokument("DokumentSomHoveddokument", new byte[] { 0x00 }, "text/plain", "NO", Hoveddokument.Filnavn));
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void LagArkivOgVerifiserDokumentInnhold()
-        {
-            var dekryptertArkivBytes = AsicEArkiv.Dekrypter(Arkiv.Bytes);
-            var arkivstrøm = new MemoryStream(dekryptertArkivBytes);
-
-            //Åpne zip og generer sjekksum for å verifisere innhold
-            using (var zip = new ZipArchive(arkivstrøm, ZipArchiveMode.Read))
-            {
-                //Alle vedlegg
-                foreach (var filsti in Vedleggsstier)
-                {
-                    byte[] sjekksum1;
-                    byte[] sjekksum2;
-
-                    GenererSjekksum(zip, filsti, _resourceUtility.GetFileName(filsti), out sjekksum1, out sjekksum2);
-                    Assert.AreEqual(sjekksum1.ToString(), sjekksum2.ToString());
-                }
-
-                //Signaturfil
-                {
-                    byte[] sjekksum1;
-                    byte[] sjekksum2;
-
-                    GenererSjekksum(zip, Arkiv.Signatur.Bytes, Arkiv.Signatur.Filnavn, out sjekksum1, out sjekksum2);
-                    Assert.AreEqual(sjekksum1.ToString(), sjekksum2.ToString());
-                }
-
-                //Manifest
-                {
-                    byte[] sjekksum1;
-                    byte[] sjekksum2;
-
-                    GenererSjekksum(zip, Arkiv.Manifest.Bytes, _resourceUtility.GetFileName(Arkiv.Manifest.Filnavn), out sjekksum1, out sjekksum2);
-                    Assert.AreEqual(sjekksum1.ToString(), sjekksum2.ToString());
-                }
-            }
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void LagKryptertArkivVerifiserInnholdValiderer()
-        {
-            var arkiv = new AsicEArkiv(Forsendelse, GuidHandler, Databehandler.Sertifikat);
-            var originalData = arkiv.Bytes;
-
-            var krypterteData = arkiv.Bytes;
-            var dekrypterteData = AsicEArkiv.Dekrypter(krypterteData); 
-
-            Assert.AreEqual(originalData.ToString(), dekrypterteData.ToString());
-        }
-        
-        private void GenererSjekksum(Object zip, string filstiPåDisk, string entryNavnIArkiv, out byte[] sjekksum1, out byte[] sjekksum2)
-        {
-            var bytes = _resourceUtility.ReadAllBytes(false,filstiPåDisk);
-            GenererSjekksum(zip, bytes, entryNavnIArkiv, out sjekksum1, out sjekksum2);
-        }
-
-        private void GenererSjekksum(Object zip, byte[] fil, string entryNavnIArkiv, out byte[] sjekksum1, out byte[] sjekksum2)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = new MemoryStream(fil))
-                {
-                    sjekksum1 = md5.ComputeHash(stream);
-                }
-
-              /*  using (var stream = zip.GetEntry(entryNavnIArkiv).Open())
-                {
-                    sjekksum2 = md5.ComputeHash(stream);
-                }*/
-            }
         }
 
         private static X509Certificate2 Mottakersertifikat()

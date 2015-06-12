@@ -12,6 +12,8 @@
  * limitations under the License.
  */
 using System.Reflection;
+using System.Security;
 
 [assembly: AssemblyVersion("1.4.0.0")]
 [assembly: AssemblyFileVersion("1.4.0.0")]
+[assembly: AllowPartiallyTrustedCallers]
