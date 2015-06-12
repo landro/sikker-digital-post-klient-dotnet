@@ -78,8 +78,11 @@ namespace Difi.SikkerDigitalPost.Klient.AsicE
 
                 var signaturnode = Signaturnode();
 
-                IEnumerable<IAsiceVedlegg> referanser = Referanser(_forsendelse.Dokumentpakke.Hoveddokument,
-                    (IEnumerable<IAsiceVedlegg>)_forsendelse.Dokumentpakke.Vedlegg, _manifest);
+                IEnumerable<IAsiceVedlegg> referanser = 
+                    Referanser(
+                        _forsendelse.Dokumentpakke.Hoveddokument,
+                        _forsendelse.Dokumentpakke.Vedlegg.Cast<IAsiceVedlegg>(),
+                        _manifest);
                 OpprettReferanser(signaturnode, referanser);
 
                 var keyInfoX509Data = new KeyInfoX509Data(_sertifikat, X509IncludeOption.WholeChain);
@@ -123,11 +126,18 @@ namespace Difi.SikkerDigitalPost.Klient.AsicE
             signaturnode.AddReference(SignedPropertiesReferanse());
         }
 
-        private static IEnumerable<IAsiceVedlegg> Referanser(Dokument hoveddokument, IEnumerable<IAsiceVedlegg> vedlegg, Manifest manifest)
+        private static IEnumerable<IAsiceVedlegg> Referanser(IAsiceVedlegg hoveddokument, IEnumerable<IAsiceVedlegg> vedlegg, Manifest manifest)
         {
-            var referanser = new List<IAsiceVedlegg>();
-            referanser.Add(hoveddokument);
+            var referanser = new List<IAsiceVedlegg> {hoveddokument};
             referanser.AddRange(vedlegg);
+            referanser.Add(manifest);
+            return referanser;
+        }
+
+        private static IEnumerable<IAsiceVedlegg> Referanser2(IAsiceVedlegg hoveddokument, IAsiceVedlegg vedlegg, Manifest manifest)
+        {
+            var referanser = new List<IAsiceVedlegg> { hoveddokument };
+            //referanser.AddRange(vedlegg);
             referanser.Add(manifest);
             return referanser;
         }

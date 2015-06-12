@@ -14,6 +14,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Threading;
 using ApiClientShared;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Aktører;
@@ -35,6 +36,8 @@ namespace Difi.SikkerDigitalPost.Klient.Testklient
 
         static void Main(string[] args)
         {
+            var a = CryptoConfig.CreateFromName("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
+            Console.WriteLine(a);
             SendPost();
         }
 
@@ -190,7 +193,7 @@ namespace Difi.SikkerDigitalPost.Klient.Testklient
             // Legger til logging til outputvinduet
             klientkonfigurasjon.Logger = (severity, konversasjonsId, metode, melding) =>
             {
-                Debug.WriteLine("{0} - {1} [{2}]", DateTime.Now, melding, konversasjonsId.GetValueOrDefault());
+             //   Debug.WriteLine("{0} - {1} [{2}]", DateTime.Now, melding, konversasjonsId.GetValueOrDefault());
             };
         }
 
