@@ -51,6 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Z:\Dev\Dp\api-client-shared-dotnet\ApiClientShared\bin\Release\ApiClientShared.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\packages\BouncyCastle.1.7.0\lib\Net20\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="Difi.Felles.Utility, Version=0.1.5638.14764, Culture=neutral, PublicKeyToken=bd8139acc70008cb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Z:\Dev\Dp\difi-felles-utility-dotnet\Difi.Felles.Utility\bin\Release\Difi.Felles.Utility.dll</HintPath>

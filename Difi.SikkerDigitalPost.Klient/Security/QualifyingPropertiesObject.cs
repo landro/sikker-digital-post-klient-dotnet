@@ -20,6 +20,7 @@ using System.Xml;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Interface;
 using Difi.SikkerDigitalPost.Klient.Domene.Extensions;
 using Difi.SikkerDigitalPost.Klient.Utilities;
+using Org.BouncyCastle.Math;
 
 namespace Difi.SikkerDigitalPost.Klient.Security
 {
@@ -84,7 +85,9 @@ namespace Difi.SikkerDigitalPost.Klient.Security
 
             var issuerSerial = cert.AppendChild("IssuerSerial", Navnerom.UriEtsi132);
             issuerSerial.AppendChild("X509IssuerName", Navnerom.XmlDsig, Certificate.Issuer);
-            //issuerSerial.AppendChild("X509SerialNumber", Navnerom.XmlDsig, BigInteger.Parse(Certificate.SerialNumber, NumberStyles.HexNumber).ToString());
+
+            var  bigintSerial = new BigInteger(Certificate.SerialNumber, 16).ToString();
+            issuerSerial.AppendChild("X509SerialNumber", Navnerom.XmlDsig,bigintSerial);
 
             var signedDataObjectProperties = signedProperties.AppendChild("SignedDataObjectProperties", Navnerom.UriEtsi132);
             foreach (var item in References)
