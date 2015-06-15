@@ -12,7 +12,10 @@
  * limitations under the License.
  */
 
+using System.Security;
+using System.Security.Cryptography;
 using System.Xml;
+using Difi.SikkerDigitalPost.Klient.Security;
 using Difi.SikkerDigitalPost.Klient.XmlValidering;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -28,8 +31,14 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
         }
 
         [TestMethod]
+        [SecuritySafeCritical]
         public void HoveddokumentStarterMedEtTallXsdValidererIkke()
         {
+            const string signatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+
+            if (CryptoConfig.CreateFromName(signatureMethod) == null)
+                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
+
             var signaturXml = Arkiv.Signatur.Xml();
             var signaturvalidator = new Signaturvalidator();
             
@@ -52,8 +61,14 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
         }
 
         [TestMethod]
+        [SecuritySafeCritical]
         public void ValidereSignaturMotXsdValiderer()
         {
+            const string signatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+
+            if (CryptoConfig.CreateFromName(signatureMethod) == null)
+                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
+
             var signaturXml = Arkiv.Signatur.Xml();
             var signaturValidering = new Signaturvalidator();
             var validerer = signaturValidering.ValiderDokumentMotXsd(signaturXml.OuterXml);
