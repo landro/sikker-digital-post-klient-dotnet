@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security;
+using System.Security.Cryptography;
 using System.Threading;
 using ApiClientShared;
 using ApiClientShared.Enums;
@@ -12,6 +14,7 @@ using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Kvitteringer.Forretning;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Kvitteringer.Transport;
 using Difi.SikkerDigitalPost.Klient.Domene.Entiteter.Post;
 using Difi.SikkerDigitalPost.Klient.Domene.Enums;
+using Difi.SikkerDigitalPost.Klient.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Difi.SikkerDigitalPost.Klient.Tester
@@ -40,8 +43,14 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
         
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", @"|DataDirectory|\testdata\integrasjon\digitalpost.csv", "digitalpost#csv", DataAccessMethod.Sequential)]
         [TestMethod]
+        [SecuritySafeCritical]
         public void SendDigitalPostIntegrasjon()
         {
+            const string signatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+
+          if (CryptoConfig.CreateFromName(signatureMethod) == null)
+            CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
+
             var beskrivelse = "Ingen beskrivelse";
             try
             {
@@ -69,8 +78,14 @@ namespace Difi.SikkerDigitalPost.Klient.Tester
 
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", @"|DataDirectory|\testdata\integrasjon\fysiskpost.csv", "fysiskpost#csv", DataAccessMethod.Sequential)]
         [TestMethod]
+        [SecuritySafeCritical]
         public void SendFysiskPostIntegrasjon()
         {
+            const string signatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+
+            if (CryptoConfig.CreateFromName(signatureMethod) == null)
+                CryptoConfig.AddAlgorithm(typeof(RsaPkCs1Sha256SignatureDescription), signatureMethod);
+
             var beskrivelse = "Ingen beskrivelse";
             try
             {
